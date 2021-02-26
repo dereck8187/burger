@@ -18,3 +18,33 @@ router.get('/burgers', function (req, res) {
 		res.render('index', hbsObject);
 	});
 });
+
+router.post('/burgers/create', function (req, res) {
+	burger.insertOne(['burger_name'], [req.body.name], function () {
+		res.redirect('/burgers');
+	});
+});
+
+
+
+router.put('/burgers/update/:id', function (req, res) {
+	var condition = 'id = ' + req.params.id;
+
+	console.log('condition', condition);
+
+	burger.updateOne({ devoured: req.body.devoured }, condition, function () {
+		res.redirect('/burgers');
+	});
+});
+
+router.delete('/burgers/delete/:id', function (req, res) {
+	var condition = 'id = ' + req.params.id;
+
+	burger.deleteOne(condition, function () {
+		res.redirect('/burgers');
+	});
+});
+
+
+
+module.exports = router;
